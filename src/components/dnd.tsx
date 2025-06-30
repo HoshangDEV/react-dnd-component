@@ -18,19 +18,26 @@ interface DndContextProps
 }
 
 // DragHandle Component
-interface DragHandleProps {
+interface DragHandleProps extends React.HTMLAttributes<HTMLDivElement> {
   dragHandleProps: any;
+  disabled?: boolean;
 }
 
 const DragHandle = React.forwardRef<HTMLDivElement, DragHandleProps>(
-  ({ dragHandleProps }, ref) => {
+  ({ dragHandleProps, className, disabled, ...props }, ref) => {
     return (
-      <button
+      <div
         ref={ref}
-        className="cursor-grab p-2 hover:bg-muted-foreground/20 border rounded-lg"
-        {...dragHandleProps}>
-        <GripVerticalIcon className="size-5" />
-      </button>
+        className={cn("cursor-grab p-2 hover:bg-muted-foreground/20 border rounded-md", 
+          disabled && "opacity-50 cursor-not-allowed",
+          className
+        )}
+        disabled={disabled}
+        {...dragHandleProps}
+        {...props}
+      >
+        <GripVerticalIcon className="size-4" />
+      </div>
     );
   }
 );
